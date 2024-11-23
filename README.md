@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Midjourney Navigation
 
-## Getting Started
+The purpose of the project is to rethink some navigation aspects of the Midjourney web app.
 
-First, run the development server:
+## Issues and improvement ideas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Menu buttons have insufficient horizontal padding
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In general, buttons with text inside (or text and icon) should have more horizontal padding than vertical, to compensate for the extra space that the text comes with above and below itself. (This is imposed by the font used.) Otherwise, the contents will seem too close to the sides of the button. This is especially noticeable when buttons are rounded and left or right aligned.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Menu doesn't handle vertical overflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The menu doesn't have a vertical scroll when the screen when the height is limited.
 
-## Learn More
+### Menu clutter
 
-To learn more about Next.js, take a look at the following resources:
+- Clearly distinguish between pages related to the primary purpose of the app (e.g., creating images), and pages related to other purposes (e.g., profile management, billing management, etc.). The latter can be grouped together under a single "My Account" menu item.
+- "Organize" and "Manage Uploads" can be combined into a single page, as they are both related to organizing user resources that are directly related to the primary purpose of the app.
+- Use different icons for "Subscribe" and "My Account" menu items. For "My Account", maybe the avatar of the current user could be used (e.g., if it is available through the OAuth provider).
+- "Chat" menu item navigates to a Newbies chat room, not to /rooms, and alternatively can be expanded to reveal links to other room types. This introduces some complexity and clutter, so an alternative would be to have a single "Chat" menu item that leads to a /rooms page where users can browse and join different room types. If the goal is to encourage new users to join the Newbies room, it could be prominently featured at the top of the room types list with special styling or emphasis.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Subscriber-only pages are not well protected
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Subscriber-only pages can still be accessed if their url is typed in. Furthermore, the Subscribe dialog is correctly triggered when clicking on the "Organize" menu item in desktop mode, but in mobile mode "Organize" doesn't trigger the dialog and navigates to the page. This inconsistent behavior is probably due to different menu components being used in desktop mode andmobile mode.
 
-## Deploy on Vercel
+### Different components in mobile and desktop modes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+When different components are used in mobile and desktop modes, they are harder to maintain. Failure to make changes in both sets of components will lead to inconsistencies. An alternative proposed in the demo is to use the same menu component: superior maintainability, and zero context switching for users because the menu always looks the same.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Subscribe dialog overflows
+
+The size of the dialog can be reduced to fit the screen better, and the overflow scrollbar can be moved to the dialog content instead of the whole browser window.
+
+### "Link accounts" button in Subscribe dialog does not close dialog
+
+Self explanatory.
+
+## Demo
+
+This demo showcases the proposed improvements using the project's core tech stack:
+
+- Next.js
+- Tailwind CSS
+- Lucide icons
+
+Other comments:
+
+- For expedited development, the demo uses shadcn/ui for base components.
+- Page content is minimal as the demo focuses solely on navigation patterns.
+- Some technical details (theme variables, package versions) may differ slightly from the main project.
